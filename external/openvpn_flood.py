@@ -2,9 +2,7 @@ from scapy.layers import inet
 import threading
 import random
 import time
-from utils import random_ip
-
-OPENVPN_SERVER_IP = "10.10.10.104"
+from utils import random_ip, OPENVPN_SERVER_IP
 
 def build_openvpn_payload():
     if random.choice([True, False]):

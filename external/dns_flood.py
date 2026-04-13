@@ -4,8 +4,7 @@ import threading
 import random
 import time
 from utils import random_ip, random_string
-
-DNS_SERVER_IP = "10.10.10.21"
+from utils import DOMAIN_CONTROLLER_IP as DNS_SERVER_IP
 
 def dns_flood_work(target_host):
     while True:

