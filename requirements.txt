@@ -3,3 +3,5 @@ scapy
 paramiko
 impacket
 smtplib
+
+fabric
